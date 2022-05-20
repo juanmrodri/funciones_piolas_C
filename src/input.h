@@ -41,6 +41,8 @@ int utn_getChar(char* pResultado, char* mensaje, char* mensajeError, char minimo
 
 int utn_getText(char* pResultado, int len, char* mensaje, char* mensajeError, int reintentos);
 
+int utn_getDni(char* pResultado, int len, char* mensaje, char* mensajeError, int reintentos);
+
 int utn_cargaForzada(int* kilometros, float* precioAerolineas, float* precioLatam, int km, float aerolineas, float latam);
 
 
