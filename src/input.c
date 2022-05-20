@@ -328,14 +328,14 @@ int utn_getText(char* pResultado, int len, char* mensaje, char* mensajeError, in
 						strcpy(pResultado, aux);
 						break;
 					}
-					else
-						{
-							if(isNumeric(aux)!=0)
-							{
-								ret=-1; // salio mal
-								printf("%s",mensaje);
-							}
-						}
+				}
+				else
+				{
+					if(isNumeric(aux)!=0)
+					{
+						ret=-1; // salio mal
+						printf("%s",mensajeError);
+					}
 				}
 
 			}
