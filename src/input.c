@@ -337,7 +337,6 @@ int utn_getText(char* pResultado, int len, char* mensaje, char* mensajeError, in
 						printf("%s",mensajeError);
 					}
 				}
-
 			}
 		}
 
