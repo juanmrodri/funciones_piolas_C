@@ -5,7 +5,10 @@
  *      Author: juanm
  */
 
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <strings.h>
 #include <ctype.h>
 #include "input.h"
 
@@ -73,17 +76,20 @@ static int isNumeric(char* pResultado)
 	int ret=-1;
 	int i=0; // me tomo esta licencia aca
 
-	if(pResultado[0] == '-') // negativos
+	if(pResultado!=NULL && strlen(pResultado) > 0)
 	{
-		i = 1;
-	}
-	for( ; pResultado[i] !='\0'; i++)
-	{
-		if(pResultado[i] > '9' || pResultado[i] < '0')
-		{
-			ret = 0;
-			break;
-		}
+		if(pResultado[0] == '-') // negativos
+			{
+				i = 1;
+			}
+			while(pResultado[i] !='\0')
+			{
+				if(pResultado[i] < '0'  || pResultado[i] > '9')
+				{
+					ret = 0;
+				}
+				i++;
+			}
 	}
 
 	return ret;
@@ -103,7 +109,6 @@ static int isFloat(char* pResultado)
 		if((pResultado[i] > '9' || pResultado[i] < '0') && pResultado[i]!='.')
 		{
 			ret = 0;
-			break;
 		}
 	}
 
@@ -113,16 +118,14 @@ static int isFloat(char* pResultado)
 static int isLetter(char* pResultado, int len)
 {
 	int ret=-1;
-	int i;
-	for(i=0; i<len;i++)
+	int i=0;
+	while(pResultado[i]!='\0')
 	{
-		if(pResultado[i]!='\0')
-		{
-			if((pResultado[i] >= 'A' || pResultado[i] <= 'Z') && (pResultado[i] >= 'a' || pResultado[i] <= 'z'))
-				{
-					ret = 0;
-				}
-		}
+		if((pResultado[i] < 'A' || pResultado[i] > 'Z') && (pResultado[i] < 'a' || pResultado[i] > 'z') && (pResultado[i]!=' '))
+			{
+				ret = 0;
+			}
+		i++;
 	}
 	return ret;
 }
@@ -133,7 +136,7 @@ static int isDni(char* pResultado, int len)
 	int i;
 	int dotCount=0;
 
-	for(i=1; i<len;i++)
+		for(i=1; i<len;i++)
 		{
 		//printf("Esta llegando aca\n");
 			if(pResultado[i]!= '\0')
@@ -214,13 +217,13 @@ static int isDni(char* pResultado, int len)
 int utn_getNumber(int* pResultado, char* mensaje, char* mensajeError, int minimo, int maximo, int reintentos)
 {
 	int aux;
-	int i;
 	int ret=-1;
 
 		if(pResultado!=NULL && mensaje!=NULL && mensajeError!=NULL && minimo<=maximo && reintentos>=0)
 		{
-			for(i=0;i<reintentos;i++)
+			while(reintentos>0)
 			{
+				reintentos--;
 				printf("%s",mensaje);
 				if(getInt(&aux) == 0 && aux >= minimo && aux <= maximo)
 				{
@@ -247,13 +250,13 @@ int utn_getNumber(int* pResultado, char* mensaje, char* mensajeError, int minimo
 int utn_getFloat(float* pResultado, char* mensaje, char* mensajeError, float minimo, float maximo, int reintentos)
 {
 	float aux;
-	int i;
 	int ret=-1;
 
 		if(pResultado!=NULL && mensaje!=NULL && mensajeError!=NULL && minimo<=maximo && reintentos>=0)
 		{
-			for(i=0;i<reintentos;i++)
+			while(reintentos>0)
 			{
+				reintentos--;
 				printf("%s",mensaje);
 				if(getFloat(&aux) == 0 && aux >= minimo && aux <= maximo)
 				{
@@ -281,12 +284,12 @@ int utn_getChar(char* pResultado, char* mensaje, char* mensajeError, char minimo
 {
 	char aux[2];
 	int ret=-1;
-	int i;
 
 		if(pResultado!=NULL && mensaje!=NULL && mensajeError!=NULL && minimo<=maximo && reintentos>=0)
 		{
-			for(i=0;i<reintentos;i++)
+			while(reintentos>0)
 			{
+				reintentos--;
 				if(isdigit(*pResultado)==0)
 				{
 					printf("%s",mensaje);
@@ -308,34 +311,28 @@ int utn_getChar(char* pResultado, char* mensaje, char* mensajeError, char minimo
 
 int utn_getText(char* pResultado, int len, char* mensaje, char* mensajeError, int reintentos)
 {
-	char aux[124];
+	char aux[4096];
 	int ret=-1;
-	int i;
 
 		if(pResultado!=NULL && len>0 && mensaje!=NULL && mensajeError!=NULL && reintentos>=0)
 		{
-			for(i=0;i<reintentos;i++)
+			while(reintentos>0)
 			{
+				reintentos--;
 				printf("%s",mensaje);
 				fflush(stdin);
 				fgets(aux,sizeof(aux),stdin);
 				aux[strlen(aux)-1]='\0';
-				if(isNumeric(aux)==0)
+				if(isLetter(aux, len)==-1) // que solo sean letras y no numeros
 				{
-					if(isLetter(aux, len)==0) // que solo sean letras y no numeros
-					{
-						ret=0;
-						strcpy(pResultado, aux);
-						break;
-					}
+					ret=0;
+					strcpy(pResultado, aux);
+					break;
 				}
 				else
 				{
-					if(isNumeric(aux)!=0)
-					{
-						ret=-1; // salio mal
-						printf("%s",mensajeError);
-					}
+					ret=-1; // salio mal
+					printf("%s",mensajeError);
 				}
 			}
 		}

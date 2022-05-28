@@ -33,6 +33,7 @@ int main(void) {
 	char dniIngresado[12];
 	int i;
 
+
 	// pedir cadena de char
 	if(utn_getText(cadenaIngresada,124,"Por favor ingrese una cadena de caracteres ", "error al ingresar la cadena de caracteres\n\n", 2)==0)
 	{
@@ -47,6 +48,26 @@ int main(void) {
 	{
 		printf("\nNo fue posible tomar la cadena, volver a intentar\n\n");
 	}
+	// pedir float
+	if(utn_getFloat(&flotanteIngresado, "Por favor ingrese un numero flotante ", "error al ingresar el flotante\n\n", 0, 100, 2)==0)
+	{
+		printf("\nEl numero entero seleccionado fue: %.2f\n", flotanteIngresado);
+	}
+	else
+	{
+		printf("\nNo fue posible tomar el numero flotante, volver a intentar\n\n");
+	}
+
+	// pedir int
+	if(utn_getNumber(&enteroIngresado, "Por favor ingrese un numero entero ", "error al ingresar el entero\n\n", 1, 100, 2)==0)
+	{
+		printf("\nEl numero entero seleccionado fue: %d\n", enteroIngresado);
+	}
+	else
+	{
+		printf("\nNo fue posible tomar el numero entero, volver a intentar\n\n");
+	}
+
 	// pedir char
 	if(utn_getChar(&caracterIngresado, "Por favor ingrese un caracter de la a a la z ", "error al ingresar el caracter\n\n", 97, 122, 2)==0)
 	{
@@ -66,25 +87,9 @@ int main(void) {
 		printf("\nNo fue posible tomar el dni, volver a intentar\n\n");
 	}
 
-	// pedir int
-	if(utn_getNumber(&enteroIngresado, "Por favor ingrese un numero entero ", "error al ingresar el entero\n\n", 1, 100, 2)==0)
-	{
-		printf("\nEl numero entero seleccionado fue: %d\n", enteroIngresado);
-	}
-	else
-	{
-		printf("\nNo fue posible tomar el numero entero, volver a intentar\n\n");
-	}
 
-	// pedir float
-	if(utn_getFloat(&flotanteIngresado, "Por favor ingrese un numero flotante ", "error al ingresar el flotante\n\n", 0, 100, 2)==0)
-	{
-		printf("\nEl numero entero seleccionado fue: %f\n", flotanteIngresado);
-	}
-	else
-	{
-		printf("\nNo fue posible tomar el numero flotante, volver a intentar\n\n");
-	}
+
+
 
 
 
